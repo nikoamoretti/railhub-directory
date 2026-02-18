@@ -1,0 +1,25 @@
+{
+  "name": "railhub-importer",
+  "version": "1.0.0",
+  "description": "Data importer for Railhub - converts Excel files to PostgreSQL",
+  "type": "module",
+  "scripts": {
+    "import": "node src/index.js",
+    "import:facilities": "node src/index.js --category facilities",
+    "geocode": "node src/geocoder/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "csv-parse": "^5.6.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.3.1",
+    "ora": "^7.0.1",
+    "pg": "^8.11.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}
