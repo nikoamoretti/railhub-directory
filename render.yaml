@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: railhub-api
+    runtime: node
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromDatabase:
+          name: railhub-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: railhub-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: railhub-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: railhub-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: railhub-db
+          property: password
+      - key: FRONTEND_URL
+        value: https://railhub.onrender.com
+    healthCheckPath: /health
+
+  - type: web
+    name: railhub-web
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://railhub-api.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://railhub-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  - name: railhub-db
+    databaseName: railhub
+    user: railhub
+    plan: free
